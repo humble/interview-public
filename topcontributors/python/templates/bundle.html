@@ -1,0 +1,52 @@
+<!--
+This file contains the HTML for the Bundle Order Form. It uses the Jinja2
+templating language. For more info on Jinja2, see:
+http://jinja.pocoo.org/docs/2.9/
+-->
+<html>
+  <head>
+    <title>Order a Bundle</title>
+    <link rel="stylesheet" type="text/css" href="assets/common.css">
+  </head>
+  <body>
+
+    <h1>Order a Bundle</h1>
+
+{% if is_employee %}
+    <p>
+      <a href="/order-lookup">Click here to look up a customer's order</a>
+    </p>
+{% endif %}
+
+    <p>
+      Please fill out the form below and then click Submit.
+    </p>
+
+    <form class="order-form" action="/place-order" method="post">
+      <p>
+        Name:
+        <input type="text" name="name">
+      </p>
+      <p>
+        Email address:
+        <input type="text" name="email">
+      </p>
+      <p>
+        Amount to pay (US dollars):
+        <input type="text" name="amount">
+      </p>
+      <p>
+        <!-- assets/order_form.js binds a submit event handler that turns this
+             into an AJAX submit -->
+        <input type="submit" name="Submit">
+      </p>
+    </form>
+
+    <p class="order-results success"></p>
+    <p class="order-results error"></p>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="/assets/order_form.js"></script>
+
+  </body>
+</html>

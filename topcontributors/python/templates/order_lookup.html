@@ -1,0 +1,60 @@
+<!--
+This file contains the HTML for the Order Lookup tool. It uses the Jinja2
+templating language. For more info on Jinja2, see:
+http://jinja.pocoo.org/docs/2.9/
+-->
+<html>
+  <head>
+    <title>Order Lookup Tool</title>
+    <link rel="stylesheet" type="text/css" href="assets/common.css">
+  </head>
+  <body>
+
+    <h1>Order Lookup Tool</h1>
+
+    <p>
+      <a href="/">Click here if you want to return to the homepage</a>
+    </p>
+
+{% if error_text %}
+    <p class="error">
+      {{ error_text }}
+    </p>
+{% else %}
+    <p>
+      Use this tool to look up details about a customer's order. Enter the
+      transaction ID in the box and then click the Lookup button.
+    </p>
+{% endif %}
+
+{% if orders %}
+    <p>
+      Orders matching this transaction ID:
+    </p>
+
+    <ol>
+  {% for order in orders %}
+      <li>Order by {{ order.email|escape }} for {{ order.pennies_paid }} pennies</li>
+  {% endfor %}
+    </ol>
+
+    <p>
+      <a href="/order-lookup">Click here to look up another customer's order</a>
+    </p>
+
+{% else %}
+
+    <form action="/order-lookup" method="post">
+      <p>
+        Transaction ID:
+        <input type="text" name="transaction_id">
+      </p>
+      <p>
+        <input type="submit" name="Lookup">
+      </p>
+    </form>
+
+{% endif %}
+
+  </body>
+</html>

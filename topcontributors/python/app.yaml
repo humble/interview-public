@@ -1,0 +1,17 @@
+# This file contains configuration for Google AppEngine
+# You do not need to modify it (unless you really want to)
+
+runtime: python27
+api_version: 1
+threadsafe: true
+
+libraries:
+- name: jinja2
+  version: latest
+
+handlers:
+- url: /assets
+  static_dir: assets
+
+- url: .*
+  script: handlers.app
