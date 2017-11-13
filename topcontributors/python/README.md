@@ -1,5 +1,7 @@
 # Humble Bundle Coding Project
 
+[![Open in Cloud Shell](http://gstatic.com/cloudssh/images/open-btn.png)](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/humble/interview-public&working_dir=topcontributors/python)
+
 ## Assignment
 Humble Bundle's tech stack is built on top of a technology called Google AppEngine. For this project, we have given you a simple web application built using AppEngine. We would like you to add some features to the application we have given you.
 
