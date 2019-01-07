@@ -41,34 +41,21 @@ def does_payload_contain_commits(event_payload):
 def get_formatted_author_email_address(event_payload):
   """Returns the fully-formatted email address of the user who caused this event.
   """
-
-  pusher_email = event_payload['pusher']['email']
-  pusher_github_username = event_payload['pusher']['name']
-
-  # Unfortunately, the 'pusher' key does not contain the real name, so check
-  # the pushed commits to try to find it. There are situatons where none of
-  # the commits will be from the pusher; when that happens, we use the github
-  # username as a fallback.
-  name_to_use = pusher_github_username
-  for commit_payload in event_payload['commits']:
-    if commit_payload['author']['username'] == pusher_github_username:
-      name_to_use = commit_payload['author']['name']
-      break
-
-  return formataddr((name_to_use, pusher_email))
+  head_commit = event_payload['head_commit']
+  return formataddr((head_commit['author']['name'], head_commit['author']['email']))
 
 
 def format_subject_line(event_payload):
   """Returns a string containing the intended subject line for the email.
   """
   full_repo_name = event_payload['repository']['full_name']
-  head_commit = event_payload['head_commit']
+  first_commit = event_payload['commits'][0]
 
   MAX_COMMIT_HASH_LENGTH = 6  # This might be too short to be unique in some circumstances; but conforms to what GitHub's emails used to do
-  commit_hash = head_commit['id'][:MAX_COMMIT_HASH_LENGTH]
+  commit_hash = first_commit['id'][:MAX_COMMIT_HASH_LENGTH]
 
   MAX_COMMIT_MESSAGE_LENGTH = 50
-  commit_message_first_line = head_commit['message'].split('\n')[0]
+  commit_message_first_line = first_commit['message'].split('\n')[0]
   if len(commit_message_first_line) > MAX_COMMIT_MESSAGE_LENGTH:
     commit_message_first_line = commit_message_first_line[:MAX_COMMIT_MESSAGE_LENGTH] + '...'
 
@@ -183,8 +170,16 @@ def send_email_about_commits(event_payload):
   """Formats and sends an email about the commits in the given payload.
   """
   is_master = event_payload['ref'] == 'refs/heads/master'
+  if not is_master:
+    # We're currently only sending emails for commits to master, because
+    # emailing about non-master commits is too spammy. We experimented with
+    # emailing non-master commits privately to the author's email, rather than
+    # to the entire team, but reliably figuring out the author's correct email
+    # is actually quite challenging.
+    return
+
   from_address = get_formatted_author_email_address(event_payload)
-  recipient_address = EMAIL_ADDRESS_FOR_MASTER_COMMITS if is_master else from_address
+  recipient_address = EMAIL_ADDRESS_FOR_MASTER_COMMITS
 
   msg = MIMEText(format_body(event_payload))
   msg['Subject'] = format_subject_line(event_payload)
