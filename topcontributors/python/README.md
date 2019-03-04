@@ -2,7 +2,7 @@
 
 [![Open in Cloud Shell](http://gstatic.com/cloudssh/images/open-btn.png)](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/humble/interview-public&working_dir=topcontributors/python)
 
-**After Cloud Shell starts, click the gear icon on the left to open Settings, then go to Editor Settings, and set Tab Size to 2 and check the box "Insert spaces for tabs".**
+**After Cloud Shell starts, go to File | Settings | Open Preferences, then set `editor.useTabStops` to `false` and `editor.tabSize` to `2` (those are under "Editor").**
 
 ## Assignment
 Humble Bundle's tech stack is built on top of a technology called Google AppEngine. For this project, we have given you a simple web application built using AppEngine. We would like you to add some features to the application we have given you.
@@ -32,6 +32,8 @@ Finally, an important part of web development is security. We will be looking to
 This project is intended to give you an example of the types of tasks you would be working at as a Software Engineer at Humble Bundle. It also exposes you to some of our core technologies. You can use this project to get a feel for whether you would like working on these types of tasks, and whether you would like using these technologies.
 
 ## Installation and getting started
+**IMPORTANT: If you are using Cloud Shell, then skip straight to step 4.**
+
 1. Install Python 2.7 on your computer, if not already installed: [https://www.python.org/downloads/](https://www.python.org/downloads/)
 
 2. Install the Google Cloud SDK on your computer: [https://cloud.google.com/sdk/docs/](https://cloud.google.com/sdk/docs/)
@@ -46,7 +48,7 @@ This project is intended to give you an example of the types of tasks you would 
 
 5. Leave the terminal open -- closing it will kill your server. Also, as you develop, there will be useful output that appears in the terminal window.
 
-6. Navigate to [http://localhost:8080/](http://localhost:8080/) in your browser to access the application.
+6. Open the application in your browser. If you are using Cloud Shell, you can do this by clicking the preview button in the top-right corner of the IDE, then by clicking "Preview on port 8080". If not using Cloud Shell, then navigate to [http://localhost:8080/](http://localhost:8080/) in your browser.
 
 7. The server will automatically detect any files you change. Once you have modified a file, wait 2 or 3 seconds, and then refresh your browser to see the results of your changes.
 
