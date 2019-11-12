@@ -4,6 +4,8 @@
 
 **After Cloud Shell starts, go to File | Settings | Open Preferences, then set `editor.useTabStops` to `false` and `editor.tabSize` to `2` (those are under "Editor").**
 
+**To remove warnings, run `cp pycodestyle ~/.config/`**
+
 ## Assignment
 Humble Bundle's tech stack is built on top of a technology called Google AppEngine. For this project, we have given you a simple web application built using AppEngine. We would like you to add some features to the application we have given you.
 
