@@ -112,7 +112,7 @@ class OrderLookupHandler(RequestHandler):
     if transaction_id:
       # Find any orders in the database with this transaction ID
       MAX_ORDERS_TO_FETCH = 5
-      orders = Order.all().filter('transaction_id', transaction_id).fetch(MAX_ORDERS_TO_FETCH)
+      orders = Order.query().filter(Order.transaction_id == transaction_id).fetch(MAX_ORDERS_TO_FETCH)
       if orders:
         self.render_page(orders=orders)
       else:

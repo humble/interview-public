@@ -3,25 +3,25 @@
 # are similar to columns in an SQL table.
 
 # Built-in Python and AppEngine imports
-from google.appengine.ext import db
+from google.appengine.ext import ndb
 
 
-class Order(db.Model):
+class Order(ndb.Model):
   '''
   This class represents a single customer's purchase of a bundle.
   '''
 
   # The datetime at which the customer placed the order
-  created = db.DateTimeProperty()
+  created = ndb.DateTimeProperty()
 
   # The customer's name
-  name = db.StringProperty()
+  name = ndb.StringProperty()
 
   # The customer's email address
-  email = db.StringProperty()
+  email = ndb.StringProperty()
 
   # A unique ID for this transaction
-  transaction_id = db.StringProperty()
+  transaction_id = ndb.StringProperty()
 
   # How much money the customer paid, in pennies
-  pennies_paid = db.IntegerProperty()
+  pennies_paid = ndb.IntegerProperty()
