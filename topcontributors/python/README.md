@@ -93,7 +93,7 @@ Where `'name'` should be changed to the name of the `<input>` in the HTML.
 For more information, see the [this page for documentation](https://webapp2.readthedocs.io/en/latest/api/webapp2.html).
 
 ## Models
-In AppEngine, models are how you interface with the database (called "datastore" in AppEngine). A model is roughly equivalent to an SQL table. The properties in the model are analogous to the columns of a table, except you can add or remove properties at any time without needing to modify a "schema". To add a new property, all you need to do is add a new variable to the class in `models.py`. AppEngine supports different types of properties; [click here for a list](https://cloud.google.com/appengine/docs/standard/python/datastore/typesandpropertyclasses).
+In AppEngine, models are how you interface with the database (called "datastore" in AppEngine). A model is roughly equivalent to an SQL table. The properties in the model are analogous to the columns of a table, except you can add or remove properties at any time without needing to modify a "schema". To add a new property, all you need to do is add a new variable to the class in `models.py`. AppEngine supports different types of properties; [click here for a list](https://cloud.google.com/appengine/docs/standard/python/ndb/entity-property-reference#types).
 
 ## Writing to the database
 To create a new entity in the database (analogous to a "row" in SQL), you create a new instance of the class, set the properties to your preferred values, and then call the `put()` function on the instance, which is what actually writes the entity to the database. If you later make modifications to the properties, you will need to call `put()` again for the modifications to be saved. Here is an example that creates a new entity for the Order model and writes it to the database:
@@ -111,7 +111,7 @@ To read from the database, you will need to run a query. Conceptually these are 
 Here is a very simple query:
 
     # Read up to 5 Order entities from the database
-    orders = Order.all().fetch(5)
+    orders = Order.query().fetch(5)
     # The variable "orders" is now a list of size 5 (or smaller)
     # Each element in the list will be an instance of the Order class
     # If there are more than 5 Order entities in the database, it will be arbitrary which 5 are returned
@@ -120,30 +120,30 @@ Here is a very simple query:
 If you want to limit your query to a subset of entities, you can apply filters. These are analogous to "WHERE" statements in SQL.
 
     # Read up to 5 Order entities with the email address "bob@gmail.com"
-    orders = Order.all().filter('email', 'bob@gmail.com').fetch(5)
+    orders = Order.query().filter(Order.email == 'bob@gmail.com').fetch(5)
 
 It is possible to add multiple filters:
 
     # Read up to 5 Order entities with the email address "bob@gmail.com" and the name "bob"
-    orders = Order.all().filter('email', 'bob@gmail.com').filter('name', 'bob').fetch(5)
+    orders = Order.query().filter(Order.email == 'bob@gmail.com').filter(Order.name == 'bob').fetch(5)
 
 Filters can also be used to do inequalities by adding an inequality symbol:
 
     # Read up to 5 Order entities that paid more than 100 pennies
-    orders = Order.all().filter('pennies_paid >', 100).fetch(5)
+    orders = Order.query().filter(Order.pennies_paid > 100).fetch(5)
 
     # Read up to 5 Order entities that paid 100 or more pennies
-    orders = Order.all().filter('pennies_paid >=', 100).fetch(5)
+    orders = Order.query().filter(Order.pennies_paid >= 100).fetch(5)
 
 Finally, you can also ask AppEngine to order the dataset in a specific manner. This is analogous to an "ORDER BY" statement. The sort order defaults to Ascending, but can be changed to Descending by adding a minus sign.
 
     # Fetch the 5 oldest Order entities (Ascending sort)
-    orders = Order.all().order('created').fetch(5)
+    orders = Order.query().order(Order.created).fetch(5)
 
     # Fetch the 5 newest Order entities (Descending sort)
-    orders = Order.all().order('-created').fetch(5)
+    orders = Order.query().order(-Order.created).fetch(5)
 
-For more information on queries, see the [AppEngine query documentation](https://cloud.google.com/appengine/docs/standard/python/datastore/queries). If you read the documentation, you may also see mention of an alternative way to write queries called GQL. GQL is equivalent to the manner described above; it is just a different syntax. Although GQL looks similar to SQL, it is actually quite different.
+For more information on queries, see the [AppEngine query documentation](https://cloud.google.com/appengine/docs/standard/python/ndb/queries). If you read the documentation, you may also see mention of an alternative way to write queries called GQL. GQL is equivalent to the manner described above; it is just a different syntax. Although GQL looks similar to SQL, it is actually quite different.
 
 ## Jinja2 templates
 Our HTML files use a templating language called Jinja2. This language allows you to pass parameters from Python to your HTML. It also allows you to do simple control structures, such as `if` statements and `for` loops. The syntax of Jinja2 is similar to Python, although not quite the same.
